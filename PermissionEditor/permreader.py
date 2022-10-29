@@ -125,7 +125,8 @@ def main(path, isEditable, isReadable, isRemove, fieldsForUpdate):
             if isRemove == False:
                 profileFields.append(field)
                 child = createChild(field, isEditable, isReadable)
-                root.insert(list(root).index(profileData[-1])+1,child)
+                pos = 0 if len(profileData) == 0 else list(root).index(profileData[-1])+1 ;
+                root.insert(pos,child)
 
     for node in root.findall("*"):
         node[:] = sorted(node, key=attrgetter("tag"))
@@ -159,7 +160,7 @@ def createChild(field, isEditable, isReadable):
     child = Element('fieldPermissions')
     editChild = SubElement(child,("editable"))
     editChild.text = str(isEditable)
-    nameChild = SubElement(child,("name"))
+    nameChild = SubElement(child,("field"))
     nameChild.text = field
     readChild = SubElement(child,("readable"))
     readChild.text = str(isReadable)

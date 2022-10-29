@@ -161,18 +161,29 @@ def close_app():
 
 
 def normalize_file(filepath):
+    print(filepath)
     fPath = ''
     if (type(filepath) is str):
         fPath = filepath
     else:
         fPath = filepath.get()
-
+    print(fPath)
     if not fPath:
         messagebox.showerror(title='Select file', message='There is no file selected')
         return
 
     permreader.normalize(fPath)
     return
+
+def normalize_files(filespath_list):
+    if not filespath_list:
+        messagebox.showerror(title='Select file', message='There no file selected')
+        return
+
+    for filepath in filespath_list:
+        normalize_file(filepath)
+
+    messagebox.showinfo(title='Done', message='Files Processed')
 
 
 selectFiles = partial(select_files, filepath_var_list)
@@ -194,7 +205,8 @@ updateRemoveCheckbox = partial(update_remove_checkbox, remove_var, is_readable, 
 is_remove = Checkbutton(tab1, text='Remove Fields', variable=remove_var, onvalue=1, offvalue=0,
                            command=updateRemoveCheckbox)
 
-normalizeFile = partial(normalize_file, filepath_var)
+# normalizeFile = partial(normalize_file, filepath_var)
+normalizeFile = partial(normalize_files, filepath_var_list)
 
 process_multi_btn = Button(win, text="Process files", command=processFiles)
 
